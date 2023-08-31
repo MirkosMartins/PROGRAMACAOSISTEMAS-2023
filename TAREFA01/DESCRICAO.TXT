@@ -1,0 +1,3 @@
+Ampliar o codigo dec-to-bin (converte decimal para binario) de forma que consigamos converter
+numeros inteiros e fracionarios, positivos e negativos para binario.
+Entrega ate 05 setembro, valendo 2 pontos na primeira nota.
