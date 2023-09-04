@@ -1,0 +1,61 @@
+numero = float(input('Digite um número inteiro ou decimal: '))
+numeroBin = ''  # Saída
+
+# Lida com o sinal 
+sinal = ''
+if numero < 0:
+    sinal = '-'
+    numero = -numero  # Inverte o sinal
+
+inteiro = int(numero)
+parte_fracionaria = numero - inteiro
+
+
+while inteiro >= 1:
+    resto = inteiro % 2
+    numeroBin = str(resto) + numeroBin
+    inteiro = inteiro // 2
+
+# Adiciona o ponto decimal
+numeroBin += '.'
+
+
+for _ in range(4):
+    parte_fracionaria *= 2
+    bit = int(parte_fracionaria)
+    numeroBin += str(bit)
+    parte_fracionaria -= bit
+
+numeroBin = sinal + numeroBin
+
+print('O número em binário é:', numeroBin)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
