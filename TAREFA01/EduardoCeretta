@@ -1,0 +1,85 @@
+#Eduardo Ceretta
+#decimal inteiro para binario negativo
+
+numero = int(input('Digite um numero:'))
+index = 1
+auxiliar = numero
+soma = 0
+lista2 = [1,1]
+lista = []
+numeroBin = '' #OUTPUT
+result = int(numero/2)
+
+while result >= 1:
+  sbtn = result*2
+  diff = numero-sbtn
+  numeroBin = str(diff)+numeroBin
+  numero = result
+  if result==1 or result == 0:
+    break
+  result = int(numero/2)
+
+numeroBin = str(result)+numeroBin
+lista = list(numeroBin)
+
+for i in range(len(lista)): #inverte o numero
+  if lista[i] == '1':
+    lista[i] = 0 #troca os 0 por 1
+  else:
+    lista[i] = 1 #troca os 1 por 0
+
+for indice in (reversed(range(len(lista)))): #soma 1 ao numero invertido
+  soma = lista[indice] + index
+  if soma == 2:
+    lista[indice] = 0
+    index = 1
+  else:
+    lista[indice] = soma
+    index = 0
+
+lista.insert(0,1) #insere o bit de sinal '1'
+
+if auxiliar == 0:
+  print("zero em binario e 0")
+elif auxiliar == 1:
+  print(lista2)
+else:
+  print(f'Numero binario negativo: {lista}')
+
+/////////////////////////////////
+#decimal fracionario para binario
+
+numero = float(input("Digite um numero decimal: "))
+numero2 = int(numero)
+
+if numero < 0:
+    sinal = '-'
+    numero = abs(numero)
+else:
+    sinal = ''
+
+parte_inteira = int(numero)
+partefrac = numero - parte_inteira
+
+numeroBin = '' #OUTPUT
+result = int(numero2/2)
+while result >= 1:
+  sbtn = result*2
+  diff = numero2-sbtn
+  numeroBin = str(diff)+numeroBin
+  numero2 = result
+  if result==1 or result == 0:
+    break
+  result = int(numero2/2)
+numeroBin = str(result)+numeroBin
+binario_fracionario = ""
+
+for _ in range(4):  
+    partefrac *= 2
+    bit = int(partefrac)
+    binario_fracionario += str(bit)
+    partefrac -= bit
+
+resultado = f"{sinal}{numeroBin}.{binario_fracionario}"
+
+print(f"Numero binario:: {resultado}")
