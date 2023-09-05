@@ -1,0 +1,23 @@
+numero = float(input("Digite um número decimal: "))
+
+if numero < 0:
+    sinal = '-'
+    numero = abs(numero)
+else:
+    sinal = ''
+
+parte_inteira = int(numero)
+parte_fracionaria = numero - parte_inteira
+
+bin_inteiro = bin(parte_inteira).replace("0b", "")
+binfracionario = ""
+
+for  in range(8):
+    parte_fracionaria *= 2
+    bit = int(parte_fracionaria)
+    bin_fracionario += str(bit)
+    parte_fracionaria -= bit
+
+resultado = f"{sinal}{bin_inteiro}.{bin_fracionario}"
+
+print(f"Número binário:: {resultado}")
