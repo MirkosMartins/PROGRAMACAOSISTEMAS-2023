@@ -1,0 +1,17 @@
+a = int(input("Digite o número decimal negativo para convertê-lo em binário: "))
+a = a*-1
+b = ""
+while a != 0:
+    c = a % 2
+    b = str(c) + b
+    a = a // 2
+print("o numero positivo em decimal ficou em:", b)
+vetor = [int(digito) for digito in str(b)]
+x = int(len(vetor))
+for p in range (x):
+    if vetor[p] == 0:
+        vetor[p] = 1
+    elif vetor[p] == 1:
+        vetor[p] = 0
+
+print("o numero negativo ficou em: ",vetor)
