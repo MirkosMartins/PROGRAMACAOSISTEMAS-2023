@@ -1,0 +1,32 @@
+num = float(input('number: '))
+result = int(num/2)
+def dec_to_bin(num):
+  sbtn = result*2
+  diff = num-sbtn
+  result = int(num/2)
+while result >= 1:
+  dec_to_bin = str(diff)+int(num)
+num = result
+print(result,diff,dec_to_bin)
+if num == 0:
+  return '0'
+if num < 0:
+  return '-' + dec_to_bin(-num)
+  int_part = int(num)
+  frac_part = num - int_part
+  int_bin = ''
+  while int_part > 0:
+        int_bin = str(int_part % 2) + int_bin
+        int_part //= 2
+  frac_bin = ''
+  while frac_part > 0:
+        frac_part *= 2
+        bit = int(frac_part)
+        frac_bin += str(bit)
+        frac_part -= bit
+result = int(num/2)
+if frac_bin:
+  return f'{int_bin}.{frac_bin}'
+else:
+  return int_bin
+print(dec_to_bin(num))
