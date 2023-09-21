@@ -1,3 +1,6 @@
+
+# Conversão Deciminal para Binário
+
 numero = float(input("Informe o número decimal: "))
 
 if numero < 0:
