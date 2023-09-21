@@ -1,5 +1,5 @@
 
-# Conversão Deciminal para Binário
+# Conversão Decimal para Binário
 
 numero = float(input("Informe o número decimal: "))
 
