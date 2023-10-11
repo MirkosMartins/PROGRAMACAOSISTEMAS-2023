@@ -32,7 +32,7 @@ while(cmd!='HALT'):
         registros[posicao]=int(p2)
         mostraMemoria()
         
-#TAREFA: IMPLEMENTAR O COMANDO ADD, NO PROPRIO CODIGO DISPONIBILIZADO NESSA PASTA:
+#TAREFA: IMPLEMENTAR O COMANDO ADD:
 #LINK REPLIT: https://replit.com/@MatheusNoguei18/PROCESSADOR#main.py
     
     elif elementos[0] == 'ADD':
