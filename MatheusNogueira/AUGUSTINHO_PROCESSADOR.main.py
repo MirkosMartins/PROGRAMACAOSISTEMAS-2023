@@ -33,6 +33,7 @@ while(cmd!='HALT'):
         mostraMemoria()
         
 #TAREFA: IMPLEMENTAR O COMANDO ADD, NO PROPRIO CODIGO DISPONIBILIZADO NESSA PASTA:
+#LINK REPLIT: https://replit.com/@MatheusNoguei18/PROCESSADOR#main.py
     
     elif elementos[0] == 'ADD':
       if p2.startswith('R'):
