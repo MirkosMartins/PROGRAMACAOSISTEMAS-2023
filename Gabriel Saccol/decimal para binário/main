@@ -1,0 +1,21 @@
+def decimal_para_binario(numero):
+    # Para números inteiros
+    if numero == int(numero):
+        return bin(int(numero))[2:]
+    # Para números com vírgula
+    else:
+        partes = str(numero).split('.')
+        parte_inteira = bin(int(partes[0]))[2:]
+        parte_fracionaria = ""
+        if len(partes) > 1:
+            parte_fracionaria = bin(int(partes[1]))[2:]
+        return f"{parte_inteira}.{parte_fracionaria}"
+
+# Solicitar ao usuário que insira um número
+entrada_usuario = input("Digite um número decimal: ")
+try:
+    numero = float(entrada_usuario)
+    resultado_binario = decimal_para_binario(numero)
+    print(f"O número {numero} em binário é: {resultado_binario}")
+except ValueError:
+    print("Entrada inválida. Certifique-se de digitar um número decimal válido.")
