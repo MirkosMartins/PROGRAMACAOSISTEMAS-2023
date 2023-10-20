@@ -1,0 +1,16 @@
+frase = str(input('Digite uma frase: ')).lower()
+frase = frase.replace(' ', '')
+palavrainversa = ''
+
+for letra in reversed(frase):
+  palavrainversa += letra
+
+palavrainversa = palavrainversa.replace(' ', '')
+
+if frase == palavrainversa:
+  print("É um palíndromo")
+else:
+  print("Não é um palíndromo")
+
+print(f"Palavra digitada: {frase}")
+print(f"Palavra invertida: {palavrainversa}")
