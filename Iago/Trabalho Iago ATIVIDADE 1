@@ -1,0 +1,65 @@
+import os
+#https://replit.com/@Vargasfinalboss/Aula-1910-MANHA-1
+# PROCESSADOR
+
+# Uma lista que será usada como memória para armazenar valores.
+# Os valores são inicializados como zero.
+registros = []
+
+# Função para mostrar o estado atual da memória.
+def mostraMemoria():
+    global registros
+    print(registros)
+
+# Função para inicializar a memória com 10 registros, todos inicializados com zero.
+def memoria():
+    global registros
+    for i in range(10):
+        registros.append(0)
+    return registros
+
+# Chama a função "memoria()" para construir a memória.
+memoria()
+
+cmd = ''
+
+# Loop principal que permite que o usuário insira comandos até digitar "HALT".
+while(cmd != 'HALT'):
+    cmd = input('\nDigite o comando: ')
+    elementos = cmd.split(' ')
+
+    if len(elementos) == 2:
+        param = elementos[1].split(',')
+        p1 = param[0]
+        p2 = param[1]
+
+        # Verifica se o comando é "LOAD".
+        if elementos[0] == 'LOAD':
+            if p2.startswith('R'):
+                # Se o segundo parâmetro começa com 'R', é uma carga entre registros.
+                posicaoOrigem = int(p2[1:])
+                posicaoDestino = int(p1[1:])
+                registros[posicaoDestino] = registros[posicaoOrigem]
+                mostraMemoria()
+            else:
+                # Caso contrário, é uma carga de um valor inteiro na posição de registro.
+                posicao = int(p1[1:])
+                registros[posicao] = int(p2)
+                mostraMemoria()
+
+        # Verifica se o comando é "ADD".
+        elif elementos[0] == 'ADD':
+            if p2.startswith('R'):
+                # Se o segundo parâmetro começa com 'R', é uma adição entre registros.
+                posicaoOrigem = int(p2[1:])
+                posicaoDestino = int(p1[1:])
+                registros[posicaoDestino] += registros[posicaoOrigem]
+                mostraMemoria()
+            else:
+                # Caso contrário, é uma adição de um valor inteiro na posição de registro.
+                posicao = int(p1[1:])
+                registros[posicao] += int(p2)
+                mostraMemoria()
+
+    print('\n Entrada:', elementos[0], '\n Função:', elementos[1])
+    print('Registros:', registros)
