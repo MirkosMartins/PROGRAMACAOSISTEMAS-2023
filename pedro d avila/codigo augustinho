@@ -41,3 +41,37 @@ while(cmd!='HALT'):
         posicao = int(p1[1:])
         registros[posicao]=registros[posicao]+int(p2)
         mostraMemoria()
+    elif elementos[0] == 'SUB':
+      if p2.startswith('R'):
+        posicaoOrigem = int(p2[1:])
+        posicaoDestino = int(p1[1:])
+        registros[posicaoDestino]=registros[posicaoOrigem]-registros[posicaoDestino]
+        mostraMemoria()
+      else:
+        posicao = int(p1[1:])
+        registros[posicao]=registros[posicao]-int(p2)
+        mostraMemoria()
+    elif elementos[0] == 'MULT':
+      if p2.startswith('R'):
+        posicaoOrigem = int(p2[1:])
+        posicaoDestino = int(p1[1:])
+        registros[posicaoDestino]=registros[posicaoOrigem]*registros[posicaoDestino]
+        mostraMemoria()
+      else:
+        posicao = int(p1[1:])
+        registros[posicao]=registros[posicao]*int(p2)
+        mostraMemoria()
+    elif elementos[0] == 'DIV':
+      if p2.startswith('R'):
+        posicaoOrigem = int(p2[1:])
+        posicaoDestino = int(p1[1:])
+        print('Divisao por zero')
+        registros[posicaoDestino]=registros[posicaoOrigem]/registros[posicaoDestino]
+        mostraMemoria()
+      else:
+        posicao = int(p1[1:])
+        if registros[posicao]==0:
+          print('Divisao por zero')
+        else:
+          registros[posicao]=registros[posicao]/int(p2)
+          mostraMemoria()
