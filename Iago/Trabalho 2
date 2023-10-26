@@ -1,0 +1,72 @@
+# PROCESSADOR EXPERIMENTAL
+# IAGO VARGAS DE OLIVEIRA
+#
+#
+#
+#
+
+# Inicialização da memória
+memoria = [0] * 10  # Usaremos uma lista em vez de uma função para inicializar a memória
+
+def mostraMemoria():
+    print("Estado da Memória:", memoria)
+
+# Loop principal
+while True:
+    cmd = input('\nDigite o comando (LOAD, STORE, ADD, SUB, MULT, DIV, HALT): ')
+    cmd = cmd.strip().upper()  # Normaliza o comando para maiúsculas
+
+    if cmd == 'HALT':
+        break  # Sair do loop
+
+    elementos = cmd.split(' ')
+    if len(elementos) == 2:
+        operacao = elementos[0]
+        parametros = elementos[1].split(',')
+
+        if operacao == 'LOAD':
+            # Carrega o valor de um registro em outro
+            destino = int(parametros[0][1])
+            origem = int(parametros[1][1])
+            memoria[destino] = memoria[origem]
+            mostraMemoria()
+
+        elif operacao == 'STORE':
+            # Armazena um valor permanentemente em um registro
+            origem = int(parametros[0][1])
+            destino = int(parametros[1][1])
+            memoria[destino] = memoria[origem]
+            mostraMemoria()
+
+        elif operacao == 'ADD':
+            # Soma dois valores e armazena o resultado em um registro
+            destino = int(parametros[0][1])
+            origem = int(parametros[1][1])
+            memoria[destino] += memoria[origem]
+            mostraMemoria()
+
+        elif operacao == 'SUB':
+            # Subtrai dois valores e armazena o resultado em um registro
+            destino = int(parametros[0][1])
+            origem = int(parametros[1][1])
+            memoria[destino] -= memoria[origem]
+            mostraMemoria()
+
+        elif operacao == 'MULT':
+            # Multiplica dois valores e armazena o resultado em um registro
+            destino = int(parametros[0][1])
+            origem = int(parametros[1][1])
+            memoria[destino] *= memoria[origem]
+            mostraMemoria()
+
+        elif operacao == 'DIV':
+            # Divide dois valores e armazena o resultado em um registro
+            destino = int(parametros[0][1])
+            origem = int(parametros[1][1])
+            if memoria[origem] == 0:
+                print("\nERRO: Divisão por zero.")
+            else:
+                memoria[destino] //= memoria[origem]
+            mostraMemoria()
+
+    print('\nComando:', operacao, '\nParâmetros:', parametros)
