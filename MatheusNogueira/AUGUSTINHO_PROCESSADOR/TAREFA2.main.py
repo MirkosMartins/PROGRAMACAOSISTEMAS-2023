@@ -48,8 +48,11 @@ while cmd != 'HALT':
                 posicao = int(p1[1:])
                 registros[posicao] += int(p2)
                 mostraMemoria()
-
+                
+        #FIZ ESTA PARTE COM O BRUNO DIFANTE   
+        
         # Implementação da SUBTRAÇÃO
+
         elif elementos[0] == 'SUB':
             if p2.startswith('R'):
                 posicaoOrigem = int(p2[1:])
