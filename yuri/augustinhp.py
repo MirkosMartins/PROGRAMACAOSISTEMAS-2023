@@ -47,6 +47,15 @@ def executar_comando(comando):
         posicao = int(p1[1:])
         registros[posicao] -= int(p2)
 
+    elif elementos[0] == 'MULT':
+      if p2.startswith('R'):
+        posicaoOrigem = int(p2[1:])
+        posicaoDestino = int(p1[1:])
+        registros[posicaoDestino] *= registros[posicaoOrigem]
+      else:
+        posicao = int(p1[1:])
+        registros[posicao] *= int(p2)
+
     elif elementos[0] == 'DIV':
       if p2.startswith('R'):
         posicao_origem = int(p2[1:])
