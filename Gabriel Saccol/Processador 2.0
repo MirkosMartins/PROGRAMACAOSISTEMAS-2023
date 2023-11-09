@@ -1,0 +1,102 @@
+#PROCESSADOR EXPERIMENTAL
+regis = []
+def mostraMemoria():
+  global regis
+  print(regis)
+
+def memoria():
+  global regis
+  for i in range(10):
+    regis.append(0)
+  return regis
+
+memoria()#constroi a memoria
+cmd=''
+while(cmd!='HALT'):
+  cmd = input('\nDigite o comando: ')
+  elementos = cmd.split(' ')
+  if len(elementos)==2:
+    param=elementos[1].split(',')
+    p1=param[0]
+    p2=param[1]
+    if elementos[0]=='LOAD':
+      if p2.startswith('R'):
+        print('\nP2 eh um regis\n')
+        posicaoOrigem = int(p2[1:])
+        posicaoDestino = int(p1[1:])
+        regis[posicaoDestino]=regis[posicaoOrigem]
+        mostraMemoria()
+      else:
+        posicao = int(p1[1:])
+        # print("Posição:/", posicao,len(registros))
+        regis[posicao]=int(p2)
+        mostraMemoria()
+
+    elif elementos[0] == 'ADD':
+      if p2.startswith('R'):
+        posicaoOrigem = int(p2[1:])
+        posicaoDestino = int(p1[1:])
+        regis[posicaoDestino] += regis[posicaoOrigem]
+        mostraMemoria()
+      else:
+        posDestino = int(p1[1:])
+        valorParametro += int(p2)
+        mostraMemoria()
+        
+    elif elementos[0] == 'SUB':
+      if p2.startswith('R'):
+        posicaoOrigem = int(p2[1:])
+        posicaoDestino = int(p1[1:])
+        regis[posicaoDestino] -= regis[posicaoOrigem]
+        mostraMemoria()
+        
+      else:
+        posDestino = int(p1[1:])
+        valorParametro -= int(p2)
+        mostraMemoria()
+        
+    elif elementos[0] == 'MULT':
+      if p2.startswith('R'):
+        posicaoOrigem = int(p2[1:])
+        posicaoDestino = int(p1[1:])
+        regis[posicaoDestino] *= regis[posicaoOrigem]
+        mostraMemoria()
+        
+      else:
+        posDestino = int(p1[1:])
+        valorParametro *= int(p2)
+        mostraMemoria()
+        
+    elif elementos[0] == 'DIV':
+      if p2.startswith('R'):
+        posicaoOrigem = int(p2[1:])
+        posicaoDestino = int(p1[1:])
+        regis[posicaoDestino] /= regis[posicaoOrigem]
+        mostraMemoria()
+        
+      else:
+        posDestino = int(p1[1:])
+        valorParametro /= int(p2)
+        mostraMemoria()
+        
+    elif elementos[0] == 'STORE':
+      if p2.startswith('R'):
+        posicaoOrigem = int(p2[1:])
+        posicaoDestino = int(p1[1:])
+        regis[posicaoDestino]=regis[posicaoOrigem]
+        mostraMemoria()
+        
+      else:
+        posicao = int(p1[1:])
+        regis[posicao]=int(p2)
+        mostraMemoria()
+        
+    elif elementos[0] == 'HALT':
+      print('Programa encerrado')
+      break
+      
+    else:
+      print('Comando desconhecido')
+      
+
+    
