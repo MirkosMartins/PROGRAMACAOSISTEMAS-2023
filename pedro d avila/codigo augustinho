@@ -45,7 +45,7 @@ while(cmd!='HALT'):
       if p2.startswith('R'):
         posicaoOrigem = int(p2[1:])
         posicaoDestino = int(p1[1:])
-        registros[posicaoDestino]=registros[posicaoOrigem]-registros[posicaoDestino]
+        registros[posicaoDestino]=registros[posicaoDestino]-registros[posicaoOrigem]
         mostraMemoria()
       else:
         posicao = int(p1[1:])
@@ -65,7 +65,7 @@ while(cmd!='HALT'):
       if p2.startswith('R'):
         posicaoOrigem = int(p2[1:])
         posicaoDestino = int(p1[1:])
-        registros[posicaoDestino]=registros[posicaoOrigem]/registros[posicaoDestino]
+        registros[posicaoDestino]=registros[posicaoDestino]/registros[posicaoOrigem]
         mostraMemoria()
       else:
         posicao = int(p1[1:])
