@@ -1,0 +1,6 @@
+SEGUNDA TAREFA (NOTA 2)
+  implementar CALL e JUMP e CMP no codigo do interpretador do montador de aula.
+
+  Entrega: 30/11 via GITHUB
+  Nome do arquivo: montador-[SEU NOME].py/ipynb na pasta com seu nome.
+  Sera avaliada a data de entrega, cada dia de atraso ocorre desconto de 2 pontos.
