@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 '''
-[ ] CALL
-[ ] JUMP
-[ ] CMP
+[x] CMP
+[x] CALL
+[x] JUMP
 '''
 
 """
@@ -26,36 +26,46 @@ def memoria(): #monta memória
 
 def executaComando(cmd):
     elementos = cmd.split(' ')
-    if len(elementos)==3:
-        param=elementos[2].split(',')
-        #print(param)
-        p1=param[0]
-        p2=param[1]
-        posicaoDestino = int(p1[1:])
-        if p2.startswith('R'):
-            valorOrigem = registros[int(p2[1:])]
-            #print('Registro: R',p2[1:],'=',valorOrigem)            
-        else:
-            valorOrigem = int(p2)
-        if elementos[1]=='LOAD':
-            registros[posicaoDestino]=valorOrigem
-        if elementos[1]=='ADD':
-            registros[posicaoDestino]=registros[posicaoDestino]+valorOrigem
-        if elementos[1]=='SUB':
-            registros[posicaoDestino]=registros[posicaoDestino]-valorOrigem
-        if elementos[1]=='MULT':
-            registros[posicaoDestino]=registros[posicaoDestino]*valorOrigem
-        if elementos[1]=='DIV':
-            if valorOrigem != 0:
-                registros[posicaoDestino]=int(registros[posicaoDestino]/valorOrigem)
+    if len(elementos) == 3:
+        if ',' in elementos[2]:
+            param = elementos[2].split(',')
+            #print(param)
+            p1 = param[0]
+            p2 = param[1]
+            posicaoDestino = int(p1[1:])
+            if p2.startswith('R'):
+                valorOrigem = registros[int(p2[1:])]
+                #print('Registro: R',p2[1:],'=',valorOrigem)            
             else:
-                print('Divisao por zero. ERRO')
-                return -1
+                valorOrigem = int(p2)
+            if elementos[1] == 'LOAD':
+                registros[posicaoDestino]=valorOrigem
+            if elementos[1] == 'ADD':
+                registros[posicaoDestino]=registros[posicaoDestino]+valorOrigem
+            if elementos[1] == 'SUB':
+                registros[posicaoDestino]=registros[posicaoDestino]-valorOrigem
+            if elementos[1] == 'MULT':
+                registros[posicaoDestino]=registros[posicaoDestino]*valorOrigem
+            if elementos[1] == 'DIV':
+                if valorOrigem != 0:
+                    registros[posicaoDestino]=int(registros[posicaoDestino]/valorOrigem)
+                else:
+                    print('Divisao por zero. ERRO')
+                    return -1
+            if elementos[1] == 'CMP':
+                if registros[posicaoDestino] == valorOrigem:
+                    return int(elementos[0]) + 1
+                return int(elementos[0]) + 2
+        else:
+            if elementos[1] == 'JUMP':
+                return int(elementos[2])
+            elif elementos[1] == 'CALL':
+                return int(labels[elementos[2]])
         mostraMemoria()
     if elementos[1]=='HALT':
         print('FIM DO PROGRAMA.')
         return -1
-    return int(elementos[0])      
+    return int(elementos[0]) + 1      
           
 def executa():
     #procura o main
@@ -65,17 +75,17 @@ def executa():
         print(endMain)
         for l in linhasArquivo:
             if l.startswith(endMain):
-                nrLinha=executaComando(l)
+                nrLinha =  1
                 break
+        rep = 0
         while nrLinha != -1:
-            if nrLinha<9:
-                nomeLinha = '0'+str(nrLinha+1)
-            else:
-                nomeLinha = str(nrLinha+1)
+            rep += 1
+            nomeLinha = ('0' if nrLinha < 10 else '') + str(nrLinha)
             for l in linhasArquivo:
                 if l.startswith(nomeLinha):
                     print(l,'linha')
-                    nrLinha=executaComando(l)
+                    nrLinha = executaComando(l)
+                    rep = 0
                     break
     except:
         print('input nao possui main\nFim do programa.',Exception.__name__)
