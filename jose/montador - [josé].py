@@ -102,6 +102,8 @@ def executaComando(cmd):
                 return int(elementos[0]) + 2
         else:
             if elementos[1] == 'jump':
+                if elementos[2].startswith('r'):
+                    return int(elementos[2][1:])
                 return int(elementos[2])
             elif elementos[1] == 'call':
                 return int(labels[elementos[2]])
