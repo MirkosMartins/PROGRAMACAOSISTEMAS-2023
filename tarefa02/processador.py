@@ -63,7 +63,7 @@ def executa():
                 nrLinha=executaComando(l)
                 break
         while nrLinha != -1:
-            if nrLinha<9:
+            if nrLinha < 9:
                 nomeLinha = '0'+str(nrLinha+1)
             else:
                 nomeLinha = str(nrLinha+1)

@@ -55,7 +55,7 @@ def executa(): #faz o programa rodar apartir da main
         print(endMain)
         for l in linhasArquivo:
             if l.startswith(endMain):
-                nrLinha =  1
+                nrLinha = executaComando(l)
                 break
         rep = 0
         while nrLinha != -1:
@@ -69,7 +69,7 @@ def executa(): #faz o programa rodar apartir da main
                     break
     except:
         print('input nao possui main\nFim do programa.',Exception.__name__)
-  
+
 def executaComando(cmd):
     elementos = cmd.split(' ')
     if len(elementos) == 3:
@@ -103,7 +103,11 @@ def executaComando(cmd):
         else:
             if elementos[1] == 'jump':
                 if elementos[2].startswith('r'):
-                    return int(elementos[2][1:])
+                    try:
+                        return int(registros[int(elementos[2][1:])])
+                    except:
+                        print("Linha não existe")
+                        return -1
                 return int(elementos[2])
             elif elementos[1] == 'call':
                 return int(labels[elementos[2]])
