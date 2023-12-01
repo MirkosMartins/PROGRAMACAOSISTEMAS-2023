@@ -1,0 +1,111 @@
+class MaquinaVirtual:
+    def __init__(self):
+        self.registros = [0] * 10
+        self.linhas = []
+        self.rotulos = {}
+
+    def exibe_memoria(self):
+        print(self.registros)
+
+    def inicializa_memoria(self):
+        return [0] * 10
+
+    def executa_comando(self, cmd):
+        elementos = cmd.split(' ')
+
+        if len(elementos) == 3:
+            if elementos[1] == 'JMP':
+                return int(elementos[2]) - 1
+            if elementos[1] == 'CALL':
+                return int(self.rotulos[elementos[2]]) - 1
+
+            pos_destino = int(elementos[2].split(',')[0][1:])
+
+            if elementos[1] == 'CMP':
+                valor_origem = self.registros[int(elementos[2].split(',')[1][1:])] if elementos[2].split(',')[1].startswith('R') else int(elementos[2].split(',')[1])
+                return int(elementos[0]) if self.registros[pos_destino] == valor_origem else int(elementos[0]) + 1
+
+            if elementos[1] in {'LOAD', 'ADD', 'SUB', 'MULT', 'DIV'}:
+                valor_origem = self.registros[int(elementos[2].split(',')[1][1:])] if elementos[2].split(',')[1].startswith('R') else int(elementos[2].split(',')[1])
+                if elementos[1] == 'LOAD':
+                    self.registros[pos_destino] = valor_origem
+                elif elementos[1] == 'ADD':
+                    self.registros[pos_destino] += valor_origem
+                elif elementos[1] == 'SUB':
+                    self.registros[pos_destino] -= valor_origem
+                elif elementos[1] == 'MULT':
+                    self.registros[pos_destino] *= valor_origem
+                elif elementos[1] == 'DIV':
+                    if valor_origem != 0:
+                        self.registros[pos_destino] //= valor_origem
+                    else:
+                        print('Divisão por zero. ERRO')
+                        return -1
+
+                self.exibe_memoria()
+
+        if elementos[1] == 'HALT':
+            print('FIM DO PROGRAMA.')
+            return -1
+
+        return int(elementos[0])
+
+    def executa_programa(self):
+        try:
+            numero_linha = 0
+            rotulo_main = self.rotulos['main']
+
+            for linha in self.linhas:
+                if linha.startswith(rotulo_main):
+                    numero_linha = self.executa_comando(linha)
+                    break
+
+            while numero_linha != -1:
+                if numero_linha is not None:
+                    rotulo_linha = '0' + str(numero_linha + 1) if (numero_linha + 1) <= 9 else str(numero_linha + 1)
+
+                for linha in self.linhas:
+                    if linha.startswith(rotulo_linha):
+                        numero_linha = self.executa_comando(linha)
+                        break
+
+        except IndexError:
+            self.lida_com_erro("IndexError")
+
+        except KeyError:
+            self.lida_com_erro("KeyError")
+
+    def lida_com_erro(self, tipo_erro):
+        print(f"Erro: {tipo_erro}")
+
+    def le_arquivo(self, nome_arquivo):
+        with open(nome_arquivo) as arquivo:
+            e_rotulo = False
+            nome_rotulo = None
+            for linha in arquivo:
+                elementos = linha.rstrip().split(' ')
+
+                if e_rotulo:
+                    self.rotulos[nome_rotulo] = elementos[0]
+                    e_rotulo = False
+
+                if linha.rstrip().endswith(':'):
+                    e_rotulo = True
+                    nome_rotulo = linha[:len(linha) - 2]
+
+                self.linhas.append(linha.rstrip())
+
+
+def principal():
+    vm = MaquinaVirtual()
+    vm.inicializa_memoria()
+    vm.exibe_memoria()
+    nome_arquivo = input('Digite o nome do arquivo: ')
+    print('\n')
+    vm.le_arquivo(nome_arquivo)
+    print(f'\n\nDicionário de Rotulos: {vm.rotulos}')
+    vm.executa_programa()
+
+
+if __name__ == '__main__':
+    principal()
