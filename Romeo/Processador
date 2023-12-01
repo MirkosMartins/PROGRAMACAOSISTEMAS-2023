@@ -1,0 +1,29 @@
+registros = [0] * 10
+
+def mostraMemoria():
+    print(registros)
+
+cmd = ''
+while cmd != 'HALT':
+    cmd = input('Digite o comando:')
+    elementos = cmd.split(' ')
+    if len(elementos) == 2:
+        p1, p2 = elementos[1].split(',')
+        p1 = int(p1[1:])
+
+        if elementos[0] == 'LOAD':
+            if p2.startswith('R'):
+                p2 = int(p2[1:])
+                registros[p1] = registros[p2]
+                mostraMemoria()
+            else:
+                registros[p1] = int(p2)
+                mostraMemoria()
+        elif elementos[0] == 'ADD':
+            if p2.startswith('R'):
+                p2 = int(p2[1:])
+                registros[p1] += registros[p2]
+                mostraMemoria()
+            else:
+                registros[p1] += int(p2)
+                mostraMemoria()
