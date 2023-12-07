@@ -78,7 +78,7 @@ def executaComando(cmd):
     mostraMemoria()
 
   if elementos[1] == 'HALT':
-    print('==============================================================')
+    print('============')
     return -1
 
   return int(elementos[0])
