@@ -1,111 +1,175 @@
-class MaquinaVirtual:
-    def __init__(self):
-        self.registros = [0] * 10
-        self.linhas = []
-        self.rotulos = {}
+linhasArquivo = []
+registros = []
+labels = {}
 
-    def exibe_memoria(self):
-        print(self.registros)
+def mostraMemoria():
+  global registros
+  print(registros)
 
-    def inicializa_memoria(self):
-        return [0] * 10
 
-    def executa_comando(self, cmd):
-        elementos = cmd.split(' ')
+def memoria():
+  global registros
+  for i in range(10):
+    registros.append(0)
+  return registros
 
-        if len(elementos) == 3:
-            if elementos[1] == 'JMP':
-                return int(elementos[2]) - 1
-            if elementos[1] == 'CALL':
-                return int(self.rotulos[elementos[2]]) - 1
 
-            pos_destino = int(elementos[2].split(',')[0][1:])
+def executaComando(cmd):
+  elementos = cmd.split(' ')
 
-            if elementos[1] == 'CMP':
-                valor_origem = self.registros[int(elementos[2].split(',')[1][1:])] if elementos[2].split(',')[1].startswith('R') else int(elementos[2].split(',')[1])
-                return int(elementos[0]) if self.registros[pos_destino] == valor_origem else int(elementos[0]) + 1
+  if len(elementos) == 3:
 
-            if elementos[1] in {'LOAD', 'ADD', 'SUB', 'MULT', 'DIV'}:
-                valor_origem = self.registros[int(elementos[2].split(',')[1][1:])] if elementos[2].split(',')[1].startswith('R') else int(elementos[2].split(',')[1])
-                if elementos[1] == 'LOAD':
-                    self.registros[pos_destino] = valor_origem
-                elif elementos[1] == 'ADD':
-                    self.registros[pos_destino] += valor_origem
-                elif elementos[1] == 'SUB':
-                    self.registros[pos_destino] -= valor_origem
-                elif elementos[1] == 'MULT':
-                    self.registros[pos_destino] *= valor_origem
-                elif elementos[1] == 'DIV':
-                    if valor_origem != 0:
-                        self.registros[pos_destino] //= valor_origem
-                    else:
-                        print('Divisão por zero. ERRO')
-                        return -1
+    if elementos[1] == 'JMP':
+      return int(elementos[2]) - 1 
 
-                self.exibe_memoria()
+    if elementos[1] == 'CALL':
+      return int(labels[elementos[2]]) - 1 
 
-        if elementos[1] == 'HALT':
-            print('FIM DO PROGRAMA.')
-            return -1
+    param = elementos[2].split(',')
+    p1 = param[0]
+    p2 = param[1]
+    posicaoDestino = int(p1[1:])
 
+    if elementos[1] == 'CMP':
+      valorOrigem = registros[int(p2[1:])] if p2.startswith('R') else int(p2)
+      if registros[posicaoDestino] == valorOrigem: 
         return int(elementos[0])
+      else:
+        return int(elementos[0]) + 1
 
-    def executa_programa(self):
-        try:
-            numero_linha = 0
-            rotulo_main = self.rotulos['main']
+    if elementos[1] == 'LOAD':
+      if p2.startswith('R'):
+        registros[posicaoDestino] = registros[int(p2[1:])]
+      else:
+        registros[posicaoDestino] = int(p2)
 
-            for linha in self.linhas:
-                if linha.startswith(rotulo_main):
-                    numero_linha = self.executa_comando(linha)
-                    break
+    if elementos[1] == 'ADD':
+      if p2.startswith('R'):
+        registros[posicaoDestino] = registros[posicaoDestino] + registros[int(p2[1:])]
+      else:
+        registros[posicaoDestino] = registros[posicaoDestino] + int(p2)
 
-            while numero_linha != -1:
-                if numero_linha is not None:
-                    rotulo_linha = '0' + str(numero_linha + 1) if (numero_linha + 1) <= 9 else str(numero_linha + 1)
+    if elementos[1] == 'SUB':
+      if p2.startswith('R'):
+        registros[posicaoDestino] = registros[posicaoDestino] - registros[int(p2[1:])]
+      else:
+        registros[posicaoDestino] = registros[posicaoDestino] - int(p2)
 
-                for linha in self.linhas:
-                    if linha.startswith(rotulo_linha):
-                        numero_linha = self.executa_comando(linha)
-                        break
+    if elementos[1] == 'MULT':
+      if p2.startswith('R'):
+        registros[posicaoDestino] = registros[posicaoDestino] * registros[int(p2[1:])]
+      else:
+        registros[posicaoDestino] = registros[posicaoDestino] * int(p2)
 
-        except IndexError:
-            self.lida_com_erro("IndexError")
+    if elementos[1] == 'DIV':
+      if p2.startswith('R'):
+        if registros[int(p2[1:])] != 0:
+          registros[posicaoDestino] = registros[posicaoDestino] // registros[int(p2[1:])]
+        else:
+          print('Divisao por zero. ERRO')
+          return -1
+      else:
+        if int(p2) != 0:
+          registros[posicaoDestino] = registros[posicaoDestino] // int(p2)
+        else:
+          print('Divisao por zero. ERRO')
+          return -1
 
-        except KeyError:
-            self.lida_com_erro("KeyError")
+    mostraMemoria()
 
-    def lida_com_erro(self, tipo_erro):
-        print(f"Erro: {tipo_erro}")
+  if elementos[1] == 'HALT':
+    print('PROGRAMA FINALIZADO.')
+    return -1
 
-    def le_arquivo(self, nome_arquivo):
-        with open(nome_arquivo) as arquivo:
-            e_rotulo = False
-            nome_rotulo = None
-            for linha in arquivo:
-                elementos = linha.rstrip().split(' ')
+  return int(elementos[0])
 
-                if e_rotulo:
-                    self.rotulos[nome_rotulo] = elementos[0]
-                    e_rotulo = False
+def executa():
+  try:
+    nrLinha = 0
+    nomeLinha = 0
+    endMain = labels['main']
 
-                if linha.rstrip().endswith(':'):
-                    e_rotulo = True
-                    nome_rotulo = linha[:len(linha) - 2]
+    for l in linhasArquivo:
+      if l.startswith(endMain):
+        nrLinha = executaComando(l)
+        break
 
-                self.linhas.append(linha.rstrip())
+    while nrLinha != -1:
+      if nrLinha is not None:
+        nomeLinha = '0' + str(nrLinha + 1) if (nrLinha + 1) <= 9 else str(nrLinha + 1)
+
+      for l in linhasArquivo:
+        if l.startswith(nomeLinha):
+          nrLinha = executaComando(l)
+          break
+
+  except IndexError:
+
+    contlabels = 0
+    flagMain = False
+
+    for l in linhasArquivo:
+      elementos = l.split(' ')
+      if len(elementos) == 1 and elementos[0].endswith(':'):
+        elementos[0] = elementos[0].replace(':', '')
+        contlabels += 1
+        if elementos[0] == 'main':
+          flagMain = True
+
+    if flagMain is False:
+      print("SEM MAIN NO INPUT.", Exception.__name__)
+      return Exception.__name__
+
+  except KeyError:
+    contlabels = 0
+    flagMain = False
+
+    for l in linhasArquivo:
+      elementos = l.split(' ')
+      if len(elementos) == 1 and elementos[0].endswith(':'):
+        elementos[0] = elementos[0].replace(':', '')
+        contlabels += 1
+        if elementos[0] == 'main':
+          flagMain = True
+
+    if flagMain is False:
+      print("SEM MAIN NO IMPUT.", Exception.__name__)
+      return Exception.__name__
 
 
-def principal():
-    vm = MaquinaVirtual()
-    vm.inicializa_memoria()
-    vm.exibe_memoria()
-    nome_arquivo = input('Digite o nome do arquivo: ')
-    print('\n')
-    vm.le_arquivo(nome_arquivo)
-    print(f'\n\nDicionário de Rotulos: {vm.rotulos}')
-    vm.executa_programa()
+def leArquivo(nomeArquivo):
+  global labels
+  with open(nomeArquivo) as arquivo:
+    flagLabel = False
+    nomeLabel = None
+    for linha in arquivo:
+      elementos = linha.rstrip().split(' ')
+
+      if flagLabel:
+        labels[nomeLabel] = elementos[0]
+        flagLabel = False
+      if linha.rstrip().endswith(':'):
+        flagLabel = True
+        nomeLabel = linha[:len(linha) - 2]
+      linhasArquivo.append(linha.rstrip())
+
+
+def mostraLinhas():
+  global linhasArquivo
+  for i in range(len(linhasArquivo)):
+    print(linhasArquivo[i])
+
+
+def main():
+  memoria()
+  mostraMemoria()
+  i = input('Digite o nome do arquivo: ')
+  print('\n')
+  leArquivo(i)
+  mostraLinhas()
+  print(f'\n\nlabels dictionary: {labels}')
+  executa()
 
 
 if __name__ == '__main__':
-    principal()
+  main()
