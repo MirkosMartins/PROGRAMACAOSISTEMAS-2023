@@ -9,7 +9,7 @@ main:
 nao:
 08 ADD R0,1
 09 SUB R1,1
-10 JMP 04
+10 JUMP 04
 sim:
 11 ADD R0,8
 12 SUB R1,1
