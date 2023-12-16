@@ -59,15 +59,14 @@ def executaComando(cmd):
               return int(labels[elementos[2]])
           if elementos[1]=='JUMP':
             if elementos[2].startswith('R'):
-              return int(registros[elementos[2][1:]])
-          else:
+              return int(registros[int(elementos[2][1:])])
+            else:
               return int(elementos[2])
         mostraMemoria()
     if elementos[1]=='HALT':
         print('FIM DO PROGRAMA.')
         return -1
     return int(elementos[0]) + 1
-
 
 def executa():
     #procura o main

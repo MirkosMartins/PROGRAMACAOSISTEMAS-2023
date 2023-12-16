@@ -1,0 +1,10 @@
+main:
+01 LOAD R9,3
+02 LOAD R0,R9
+03 CMP R0,1
+04 HALT
+05 CALL funcao
+funcao:
+07 SUB R0,1
+08 MULT R9,R0
+09 JMP 03
