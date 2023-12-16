@@ -57,7 +57,7 @@ def executaComando(cmd):
                     return int(elementos[0]) + 1
                 return int(elementos[0]) + 2
         else:
-            if elementos[1] == 'JUMP':
+            if elementos[1] == 'JMP':
                 return int(elementos[2])
             elif elementos[1] == 'CALL':
                 return int(labels[elementos[2]])
@@ -77,15 +77,12 @@ def executa():
             if l.startswith(endMain):
                 nrLinha =  1
                 break
-        rep = 0
         while nrLinha != -1:
-            rep += 1
             nomeLinha = ('0' if nrLinha < 10 else '') + str(nrLinha)
             for l in linhasArquivo:
                 if l.startswith(nomeLinha):
                     print(l,'linha')
                     nrLinha = executaComando(l)
-                    rep = 0
                     break
     except:
         print('input nao possui main\nFim do programa.',Exception.__name__)
